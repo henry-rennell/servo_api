@@ -14,7 +14,6 @@ async function initMap() {
   axios.get('/api/stations/all')
     .then(res => res.data.forEach(location => {
       let latLong = {lat: location.lat, lng: location.long}
-      console.log(latLong)
       let marker = new google.maps.Marker({
         position: latLong,
         map,
