@@ -4,6 +4,8 @@ const config = require("./config")
 const expressLayouts = require("express-ejs-layouts")
 const Station = require('./models/station')
 
+const db = require('./db')
+
 app.set("view engine", "ejs")
 
 app.use(express.static("public"))
@@ -17,4 +19,8 @@ app.get("/", (req, res) => {
 
 app.listen(config.port, () => {
   console.log(`listening on port ${config.port}`)
+})
+
+app.get('/api/station/all', (req,res) => {
+    Station.getAll().then(dbres => res.json(dbres.rows))
 })
