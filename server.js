@@ -3,6 +3,7 @@ const app = express()
 const config = require("./config")
 const expressLayouts = require("express-ejs-layouts")
 const Station = require('./models/station')
+const db = require('./db/index')
 
 const db = require('./db')
 
@@ -15,6 +16,16 @@ app.use(require("./middlewares/method_override"))
 
 app.get("/", (req, res) => {
   res.render("home", {api_key: process.env.GOOGLE_API_KEY})
+})
+
+app.get('/api/owners', (req, res) => {
+  const sql = 'select distinct owner from service_stations;'
+
+  db.query(sql).then(result => {
+    const owners = result.rows.map(row => row.owner)
+    console.log(owners)
+    res.json(owners)
+  })
 })
 
 app.listen(config.port, () => {
