@@ -5,8 +5,13 @@ async function initMap() {
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
 
+<<<<<<< HEAD
   const map = new Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
+=======
+  map = new Map(document.getElementById("map"), {
+    center: { lat: -33.865143, lng: 151.209900 },
+>>>>>>> c872779 (update long and lat for sydney)
     zoom: 13,
     minZoom: 10
   });
