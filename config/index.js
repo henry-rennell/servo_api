@@ -1,5 +1,4 @@
 require("dotenv").config()
-
 let missing = ["PORT", "DATABASE_URL"].filter(
   key => process.env[key] === undefined
 )

@@ -1,4 +1,3 @@
-OBJECTID,FEATURETYPE,DESCRIPTION,CLASS,FID,NAME,OPERATIONALSTATUS,OWNER,INDUSTRYID,ADDRESS,SUBURB,STATE,SPATIALCONFIDENCE,REVISED,COMMENT,LATITUDE,LONGITUDE
 1,Petrol Station,An establishment where a range of fuel products can be purchased by motorists,Petrol Station,1,Cobram,Operational,BP,,3701 Murray Valley Highway,Cobram,Victoria,5,20110725,,-35.9211754139999,145.638305815
 2,Petrol Station,An establishment where a range of fuel products can be purchased by motorists,Petrol Station,2,Horsham,Operational,Atlas Fuels Pty Ltd,,2 O'Callaghans Parade,Horsham,Victoria,5,20110725,,-36.7191071299999,142.199983937
 3,Petrol Station,An establishment where a range of fuel products can be purchased by motorists,Petrol Station,3,Paynesville,Operational,7-Eleven Pty Ltd,,Paynesville Road,Paynesville,Victoria,5,20120713,,-37.9070616619999,147.719016274
