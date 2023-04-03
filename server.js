@@ -14,13 +14,13 @@ app.use(expressLayouts)
 app.use(express.urlencoded({ extended: true }))
 app.use(require("./middlewares/method_override"))
 
-// clock
-app.use((req, res, next) => {
-  // set interval in here
-  const currentTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
-  res.locals.currentTime = currentTime;
-  next();
-});
+// // clock
+// app.use((req, res, next) => {
+//   // set interval in here
+//   const currentTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+//   res.locals.currentTime = currentTime;
+//   next();
+// });
 
 app.get("/", (req, res) => {
   res.render("home", {API_KEY: process.env.GOOGLE_API_KEY})
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.get('/api/owners', (req, res) => {
   Station.getOwners().then(owners => res.json(owners))
 })
-app.get('/api/station/all', (req,res) => {
+app.get('/api/stations/all', (req,res) => {
     Station.getAll().then(dbres => res.json(dbres.rows))
 })
 
