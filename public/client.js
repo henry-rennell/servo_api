@@ -1,5 +1,4 @@
 
-
 let map;
 
 async function initMap() {
@@ -14,3 +13,8 @@ async function initMap() {
 }
 
 initMap();
+
+//const station = require('../models/station')
+
+
+
