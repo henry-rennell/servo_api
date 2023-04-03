@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(require("./middlewares/method_override"))
 
 app.get("/", (req, res) => {
-  res.render("home", {api_key: process.env.GOOGLE_API_KEY})
+  res.render("home", {API_KEY: process.env.GOOGLE_API_KEY})
 })
 
 app.get('/api/owners', (req, res) => {
