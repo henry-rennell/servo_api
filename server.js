@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(require("./middlewares/method_override"))
 
 app.get("/", (req, res) => {
-  res.render("home")
+  res.render("home", {API_KEY: 'AIzaSyAD1SVpnBSHcT30X4GoHgjryau7Z6Hsb08' })
 })
 
 app.listen(config.port, () => {
