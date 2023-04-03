@@ -6,6 +6,6 @@ an app to show where you are to find where the closest service station is to you
 
 By
 - henry: https://github.com/henry-rennell
-- elimria: 
+- elimria: https://github.com/elmira1788
 - Falko: https://github.com/FalkoKa 
 - Jack: https://github.com/jrh1010101101010 
