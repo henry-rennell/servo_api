@@ -7,7 +7,7 @@ function renderSpotlight (station){
 
 function htmlElementRan (station){
     return `
-            <p>${station.name}<p> 
+            <p><a href="#" onclick="centerMapOnStation(${station.lat}, ${station.long}); return false;">${station.name}</a></p> 
             <p>${station.owner}<p>
             <p>${station.address}<p>`
 }
@@ -22,3 +22,10 @@ function handleRefresh (event){
    event.preventDefault()
    axios.get("http://localhost:8080/api/stations/random").then(result => result.data[0]).then(data => renderSpotlight(data))
 }
+
+function centerMapOnStation(latitude, longitude) {
+   const map = new google.maps.Map(document.getElementById("map"), {
+     center: { lat: latitude, lng: longitude },
+     zoom: 15,
+   });
+ }
