@@ -1,12 +1,17 @@
 import { setClock } from './clock.js'
 let map;
 
-async function initMap() {
+// function getUserLocation() {
+//   navigator.geolocation.getCurrentPosition().then(location => {
+//     return {lat: location.coords.latitude, lng: location.coords.longitude}
+//   }) 
+// }
+
+async function initMap(location) {
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
-
   map = new Map(document.getElementById("map"), {
-    center: { lat: -33.865143, lng: 151.209900 },
+    center: { lat: location.lat, lng: location.lng },
     zoom: 13,
     minZoom: 10
   });
@@ -41,7 +46,9 @@ async function initMap() {
 }
 
 
-initMap()
+navigator.geolocation.getCurrentPosition((position)=> {
+  initMap({lat: position.coords.latitude, lng: position.coords.longitude})
+})
 setInterval(setClock, 1000);
 
 
