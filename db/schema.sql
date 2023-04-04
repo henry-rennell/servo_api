@@ -2,6 +2,7 @@ create database servo_api;
 
 create table if not exists service_stations (
    id serial primary key,
+   name text not null,
    owner text not null,
    address text not null,
    suburb text not null,

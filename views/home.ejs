@@ -11,8 +11,17 @@
     <div class="wrapper">
       <div class="left-side-bar">
         <section class="spotlight"></section>
-        <section class="stats"></section>
-        <section class="latest-prices"></section>
+        <section class="stats">
+            <h3>Stats</h3>
+            <h4>total station: 5244</h4>
+        </section>
+        <section class="latest-prices">
+            <h3>latest prices</h3>
+            <p class="commodity-date"></p>
+            <p>WTI oil <span class="wti"></span> USD per barrel 🛢️</p>
+            <p>Brent oil <span class="brent"></span> USD per barrel 🛢️</p>
+            <p>Natural gas <span class="natural-gas"></span> USD per MMBtu</p>
+        </section>
         <section class="about">
           <h3>About</h3>
           <h4>Team Name: Team JEFH</h4>
@@ -82,6 +91,8 @@
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="/latest_prices.js"></script>
+    <script type="module" src="/station_list.js"></script>
     <script type="module" src="/clock.js"></script>
     <script type= "module" src="/client.js"></script>
     <script src="/api.js"></script>
