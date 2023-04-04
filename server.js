@@ -30,13 +30,12 @@ app.get("/api/stations/all", (req, res) => {
 
 // random station
 app.get("/api/stations/random", (req, res) => {
-  
   Station.getRandom().then(dbres => res.json(dbres))
 })
 
 app.get('/api/stats', (req, res) => {
   const totals = Station.getTotals()
-  const owners = Station.getOwners()
+  const owners = Station.getStats()
   Promise.all([totals, owners]).then(result => {
     return {
       owners: result[1],

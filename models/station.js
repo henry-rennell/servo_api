@@ -9,11 +9,18 @@ class Station {
     }
 
     static getOwners(){
-    let sql = 'select distinct owner, count(name) from service_stations group by owner having count(name) > 80 order by count(name) desc;'
-    return db.query(sql).then(result => {
-        return result.rows
-      })
+        let sql = 'select distinct owner from service_stations;'
+        return db.query(sql).then(result => {
+            return result.rows.map(row => row.owner)
+        })
     }
+    
+    static getStats() {
+        let sql = 'select distinct owner, count(name) from service_stations group by owner having count(name) > 80 order by count(name) desc;'
+        return db.query(sql).then(result => {
+            return result.rows
+         })
+     }
     
     static getRandom(){
         let ranStation = Math.floor(Math.random() * 5244)

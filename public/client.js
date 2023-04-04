@@ -45,18 +45,29 @@ async function initMap(location) {
     }))
 }
 
-
-navigator.geolocation.getCurrentPosition((position)=> {
+//function to handle user allowing geolocation
+function success(position) {
   initMap({lat: position.coords.latitude, lng: position.coords.longitude})
-})
+}
+//function to handle browser has geolocation available but user blocks access to it 
+function error() {
+  initMap({lat:-37.8136, lng: 144.9631})
+}
+
+//this if statement handles if the browser does not support geolocation api 
+if (!navigator.geolocation) {
+    initMap({lat:-37.8136, lng: 144.9631})
+} else {
+  //if the browser does support geolocation API
+  navigator.geolocation.getCurrentPosition(success, error);
+}
+
+
 setInterval(setClock, 1000);
 
 
-//const station = require('../models/station')
-
-
 const centerLatitude = -37.8136; // Melbourne latitude
-  const centerLongitude = 144.9631; // Melbourne longitude
+const centerLongitude = 144.9631; // Melbourne longitude
 
   // Display Melbourne latitude and longitude on the right sidebar
   const centerLatitudeElem = document.getElementById('center-latitude');
