@@ -62,11 +62,25 @@ function createMarkers(data) {
 
   axios.get(`/api/stations/bounds?neLat=${data.ne.lat}&neLng=${data.ne.lng}&swLat=${data.sw.lat}&swLng=${data.sw.lng}`)
   .then(arr => { arr.data.forEach(location => {
+    let markerIcon = null;
+    if (location.owner === 'Caltex') {
+      markerIcon = 'https://cdn.iconscout.com/icon/free/png-32/caltex-3442887-2875348.png';
+    } else if (location.owner === 'BP') {
+      markerIcon = 'https://cdn.iconscout.com/icon/free/png-32/bp-14-282567.png?f=avif&w=512';
+    } else if (location.owner === 'Shell') {
+      markerIcon = 'https://cdn.iconscout.com/icon/free/png-32/shell-9-282410.png?f=avif&w=512';
+    } else if (location.owner === '7-Eleven Pty Ltd') {
+      markerIcon = 'https://cdn.iconscout.com/icon/free/png-32/7-eleven-3442178-2875995.png?f=avif&w=512';
+    } else {
+      markerIcon = 'https://cdn.iconscout.com/icon/premium/png-32-thumb/location-pin-53-520652.png?f=avif&w=512'
+    }
+
     let latLong = {lat: location.lat, lng: location.long}
     let marker = new google.maps.Marker({
       position: latLong,
       map,
-      title: `${location.owner}`
+      title: `${location.owner}`,
+      icon: { url: markerIcon }
     })
 
 
