@@ -9,6 +9,5 @@ function renderStation(station) {
 }
 
 axios.get('/api/stations/all').then(result => {
-    console.log(result.data.slice(0, 10))
     return result.data.slice(0, 10)
 }).then(renderStationList)
