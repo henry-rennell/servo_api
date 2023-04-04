@@ -17,8 +17,25 @@ async function initMap() {
       let marker = new google.maps.Marker({
         position: latLong,
         map,
-        title: `${location.owner}`
+        title: `${location.owner}`,
+        label: `${location.name}`
       })
+
+      let contentString =
+                "<div>" +
+                "<h3>" +
+                location.owner +
+                "</h3>" +
+                "<p>" +
+                location.address +
+                "</p>" +
+                "</div>";
+              let infoWindow = new google.maps.InfoWindow({
+                content: contentString,
+              });
+              marker.addListener("click", () => {
+                infoWindow.open(map, marker);
+              });
       marker.setMap(map)
     }))
 }
