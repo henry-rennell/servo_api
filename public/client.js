@@ -15,8 +15,9 @@ async function initMap(location) {
     zoom: 13,
     minZoom: 10
   });
-  //getting locations to add map markers
-  axios.get('/api/stations/all')
+  map.addListener('dragend', () => {
+
+    axios.get('/api/stations/all')
     .then(res => res.data.forEach(location => {
       let latLong = {lat: location.lat, lng: location.long}
       let marker = new google.maps.Marker({
@@ -41,8 +42,11 @@ async function initMap(location) {
               marker.addListener("click", () => {
                 infoWindow.open(map, marker);
               });
+
       marker.setMap(map)
     }))
+  })
+  //getting locations to add map markers
 }
 
 //function to handle user allowing geolocation
