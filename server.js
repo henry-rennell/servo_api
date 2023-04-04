@@ -34,6 +34,18 @@ app.get("/api/stations/random", (req, res) => {
   Station.getRandom().then(dbres => res.json(dbres))
 })
 
+app.get('/api/stats', (req, res) => {
+  const totals = Station.getTotals()
+  const owners = Station.getOwners()
+  Promise.all([totals, owners]).then(result => {
+    return {
+      owners: result[1],
+      total_owners: result[0][0].total_owners,
+      total_stations: result[0][0].total_stations
+    }
+  }).then(object => res.json(object))
+})
+
 app.listen(config.port, () => {
   console.log(`listening on port ${config.port}`);
 });

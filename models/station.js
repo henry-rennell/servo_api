@@ -9,7 +9,7 @@ class Station {
     }
 
     static getOwners(){
-    let sql = 'select distinct owner, count(name) from service_stations group by owner order by count(name) desc;'
+    let sql = 'select distinct owner, count(name) from service_stations group by owner having count(name) > 80 order by count(name) desc;'
     return db.query(sql).then(result => {
         return result.rows
       })
@@ -20,6 +20,11 @@ class Station {
 
         let sql = `select * from service_stations where id = $1;`
         return db.query(sql, [ranStation]).then(ran => ran.rows)
+    }
+
+    static getTotals() {
+        const sql = 'select count(distinct owner) as total_owners, count(id) as total_stations from service_stations;'
+        return db.query(sql).then(result => result.rows)
     }
 
 
