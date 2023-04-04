@@ -33,6 +33,12 @@ app.get("/api/stations/all", (req, res) => {
   Station.getAll().then((dbres) => res.json(dbres.rows));
 });
 
+// random station
+app.get("/api/stations/random", (req, res) => {
+  
+  Station.getRandom().then(dbres => res.json(dbres))
+})
+
 app.listen(config.port, () => {
   console.log(`listening on port ${config.port}`);
 });
