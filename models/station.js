@@ -15,7 +15,12 @@ class Station {
       })
     }
     
+    static getRandom(){
+        let ranStation = Math.floor(Math.random() * 5244)
 
+        let sql = `select * from service_stations where id = $1;`
+        return db.query(sql, [ranStation]).then(ran => ran.rows)
+    }
 
 
 
