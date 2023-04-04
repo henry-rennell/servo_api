@@ -1,69 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="wrapper">
-        <div class="left-side-bar">
-            <section class="spotlight">
+      <div class="left-side-bar">
+        <section class="spotlight"></section>
+        <section class="stats"></section>
+        <section class="latest-prices"></section>
+        <section class="about">
+          <h3>About</h3>
+          <h4>Team Name: Team JEFH</h4>
 
-            </section>
-            <section class="stats">
-                <h3>Stats</h3>
-                <h4>total station: 5244</h4>
-                <h4>total owners: 32</h4>
+          <p>Falko: <a href="https://github.com/FalkoKa">Falko's Github</a></p>
+          <p>
+            Jack:
+            <a href="https://github.com/jrh1010101101010">Jack's Github</a>
+          </p>
+          <p>
+            Elmira: <a href="https://github.com/elmira1788">Elmira's Github </a>
+          </p>
+          <p>
+            Henry: <a href="https://github.com/henry-rennell">Henry's Github</a>
+          </p>
+        </section>
+      </div>
 
-            </section>
-            <section class="latest-prices">
+      <div id="map"></div>
 
-            </section>
-            <section class="about">
-                <h3>About</h3>
-                <h4>Team Name: Team JEFH</h4>
-
-                <p>Falko: <a href="https://github.com/FalkoKa">Falko's Github</a></p>
-                <p>Jack: <a href="https://github.com/jrh1010101101010">Jack's Github</a></p>
-                <p>Elmira: <a href="https://github.com/elmira1788">Elmira's Github </a></p>
-                <p>Henry: <a href="https://github.com/henry-rennell">Henry's Github</a></p>
-            </section>
-        </div>
-
-        <div id="map">
-
-        </div>
-
-        <div class="right-side-bar">
-            <section class="date">
-            
-            </section>
-            <section class="map-center-location">
-
-            </section>
-            <section class="nearest">
-
-            </section>
-        </div>
-    </div>   
-
-
-
-
+      <div class="right-side-bar">
+        <section class="date"></section>
+        <section class="map-center-location"></section>
+        <section class="nearest"></section>
+      </div>
+    </div>
 
     <script>
-        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-          key: "<%= API_KEY %>",
-        })
+      ((g) => {
+        var h,
+          a,
+          k,
+          p = "The Google Maps JavaScript API",
+          c = "google",
+          l = "importLibrary",
+          q = "__ib__",
+          m = document,
+          b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+          r = new Set(),
+          e = new URLSearchParams(),
+          u = () =>
+            h ||
+            (h = new Promise(async (f, n) => {
+              await (a = m.createElement("script"));
+              e.set("libraries", [...r] + "");
+              for (k in g)
+                e.set(
+                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                  g[k]
+                );
+              e.set("callback", c + ".maps." + q);
+              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+              d[q] = f;
+              a.onerror = () => (h = n(Error(p + " could not load.")));
+              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+              m.head.append(a);
+            }));
+        d[l]
+          ? console.warn(p + " only loads once. Ignoring:", g)
+          : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+      })({
+        key: "<%= API_KEY %>",
+      });
     </script>
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="/client.js"></script>
+    <script>
+      let markers = [];
 
-</body>
+      async function initMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+        let map = new Map(document.getElementById("map"), {
+          zoom: 8,
+          center: { lat: -37.8136, lng: 144.9631 },
+        });
+
+        fetch("/api/stations/all")
+          .then((res) => res.json())
+          .then((stations) => {
+            stations.forEach((station) => {
+              let marker = new google.maps.Marker({
+                position: { lat: station.lat, lng: station.long },
+                map: map,
+                title: station.owner,
+                label: station.owner,
+              });
+              
+                marker.addListener("mouseover", () => {
+                  new google.maps.InfoWindow({
+                    content: marker.getTitle(),
+                  }).open(map, marker);
+                  
+                });
+             
+
+              let contentString =
+                "<div>" +
+                "<h3>" +
+                station.owner +
+                "</h3>" +
+                "<p>" +
+                station.address +
+                "</p>" +
+                "</div>";
+              let infoWindow = new google.maps.InfoWindow({
+                content: contentString,
+              });
+              marker.addListener("click", () => {
+                infoWindow.open(map, marker);
+              });
+
+              markers.push(marker);
+            });
+          });
+      }
+      initMap();
+    </script>
+  </body>
 </html>
-
-
