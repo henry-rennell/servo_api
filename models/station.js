@@ -9,9 +9,9 @@ class Station {
     }
 
     static getOwners(){
-    let sql = 'select distinct owner from service_stations;'
+    let sql = 'select distinct owner, count(name) from service_stations group by owner order by count(name) desc;'
     return db.query(sql).then(result => {
-        return result.rows.map(row => row.owner)
+        return result.rows
       })
     }
     
