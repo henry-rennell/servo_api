@@ -9,7 +9,13 @@
     height: 100%;
 }
 
+.hide.right-side-bar, .hide.left-side-bar {
+  display: none;
+}
 
+.hide.wrapper {
+  display: block;
+}
 
 
 #map {
