@@ -48,4 +48,13 @@ setInterval(setClock, 1000);
 //const station = require('../models/station')
 
 
+const centerLatitude = -37.8136; // Melbourne latitude
+  const centerLongitude = 144.9631; // Melbourne longitude
+
+  // Display Melbourne latitude and longitude on the right sidebar
+  const centerLatitudeElem = document.getElementById('center-latitude');
+  const centerLongitudeElem = document.getElementById('center-longitude');
+  centerLatitudeElem.textContent = centerLatitude.toFixed(4);
+  centerLongitudeElem.textContent = centerLongitude.toFixed(4);
+
 
