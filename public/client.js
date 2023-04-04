@@ -16,7 +16,14 @@ async function initMap(location) {
     minZoom: 10
   });
   map.addListener('dragend', () => {
-
+    const bounds = map.getBounds();
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+    const data = {
+      ne: {lat: ne.lat(), lng: ne.lng()},
+      sw: {lat: sw.lat(), lng: sw.lng()}
+    };
+    console.log(data.ne, data.se)
     axios.get('/api/stations/all')
     .then(res => res.data.forEach(location => {
       let latLong = {lat: location.lat, lng: location.long}
