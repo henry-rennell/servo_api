@@ -1,11 +1,6 @@
 import { setClock } from './clock.js'
 let map;
 
-// function getUserLocation() {
-//   navigator.geolocation.getCurrentPosition().then(location => {
-//     return {lat: location.coords.latitude, lng: location.coords.longitude}
-//   }) 
-// }
 
 async function initMap(location) {
   //@ts-ignore
@@ -23,9 +18,8 @@ async function initMap(location) {
       ne: {lat: ne.lat(), lng: ne.lng()},
       sw: {lat: sw.lat(), lng: sw.lng()}
     };
-    console.log(data.ne, data.se)
-    axios.get('/api/stations/all')
-    .then(res => res.data.forEach(location => {
+    axios.get(`/api/stations/bounds?neLat=${data.ne.lat}&neLng=${data.ne.lng}&swLat=${data.sw.lat}&swLng=${data.sw.lng}`)
+    .then(arr => { arr.data.forEach(location => {
       let latLong = {lat: location.lat, lng: location.long}
       let marker = new google.maps.Marker({
         position: latLong,
@@ -50,10 +44,9 @@ async function initMap(location) {
                 infoWindow.open(map, marker);
               });
 
-      marker.setMap(map)
-    }))
+      marker.setMap(map) 
+    })})
   })
-  //getting locations to add map markers
 }
 
 //function to handle user allowing geolocation

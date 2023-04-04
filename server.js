@@ -36,19 +36,19 @@ app.get("/api/stations/random", (req, res) => {
 
 app.get('/api/stations/bounds', (req, res) => {
   //api/stations/bounds?neLat=37.0000&neLng=144.000&swLat=70.000&swLng=80.0000
-  let neLat = Number(req.query.neLat)
-  let neLng = Number(req.query.neLng)
-  let swLat = Number(req.query.swLat)
-  let swLng = Number(req.query.swLng)
-  console.log(neLat, neLng, swLat, swLng)
+  let neLat = parseFloat(req.query.neLat)
+  let neLng = parseFloat(req.query.neLng)
+  let swLat = parseFloat(req.query.swLat)
+  let swLng = parseFloat(req.query.swLng)
 
 
-  let sql = `select * from service_stations where lat between $1 and $2 and long between $3 and $4;`;
-
-  db.query(sql, [swLat, neLat, swLng, neLng],(err, dbRes) => {
-    res.send(dbRes)
+  let sql = `select * from service_stations where lat between ${swLat} and ${neLat} and long between ${swLng} and ${neLng};`;
+  
+  db.query(sql, (err, dbRes) => {
+    if (err) console.log(err)
+    
+    res.json(dbRes.rows)
   })
-
 
 })
 
