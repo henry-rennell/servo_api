@@ -14,9 +14,9 @@ const stationData = fs.readFileSync('./db/service_stations.txt', {encoding:'utf8
 stationData.forEach(station => {
     let arr = station.split(',')
 
-    let sql = `insert into service_stations (owner, address, suburb, state, lat, long) values ($1, $2, $3, $4, $5, $6);` 
+    let sql = `insert into service_stations (name, owner, address, suburb, state, lat, long) values ($1, $2, $3, $4, $5, $6, $7);` 
 
-   db.query(sql, [arr[7], arr[9], arr[10], arr[11], arr[15], arr[16]], (err, dbres) => {
+   db.query(sql, [arr[5], arr[7], arr[9], arr[10], arr[11], arr[15], arr[16]], (err, dbres) => {
     if(err) console.log(err)
    })
 
