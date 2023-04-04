@@ -49,7 +49,6 @@ app.get('/api/stations/bounds', (req, res) => {
     
     res.json(dbRes.rows)
   })
-
 })
 
 app.get('/api/stats', (req, res) => {
