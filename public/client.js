@@ -4,6 +4,7 @@ let markers = [];
 let mapCenter;
 const nearest = document.querySelector('.nearest')
 
+
 function renderStation(station) {
   let imgSrc;
   if (station.owner === 'Caltex') {
@@ -30,6 +31,7 @@ function renderStationList(stations) {
 async function initMap(location) {
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
+  const geocoder = new google.maps.Geocoder();
   map = new Map(document.getElementById("map"), {
     center: { lat: location.lat, lng: location.lng },
     zoom: 13,
@@ -53,11 +55,19 @@ async function initMap(location) {
 }
 
 function getCenterOfMap (map) {
+  const geocoder = new google.maps.Geocoder();
   let latLng = map.getCenter()
   let lat = latLng.lat()
   let lng = latLng.lng()
+  const addressElem = document.getElementById('location-address');
   const centerLatitudeElem = document.getElementById('center-latitude');
   const centerLongitudeElem = document.getElementById('center-longitude');
+  let centerCoords = {lat, lng}
+  geocoder
+    .geocode({location: centerCoords})
+    .then(res => {
+      addressElem.textContent = res.results[0].formatted_address
+    })
   centerLatitudeElem.textContent = lat.toFixed(4);
   centerLongitudeElem.textContent = lng.toFixed(4);
 }
