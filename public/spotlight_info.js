@@ -27,6 +27,7 @@ function handleRefresh (event){
    axios.get("http://localhost:8080/api/stations/random").then(result => result.data[0]).then(data => renderSpotlight(data))
 }
 
+<<<<<<< HEAD
 //const ranStation = document.querySelector('.random-station')
 
 //ranStation.addEventListener
@@ -35,4 +36,9 @@ function handleRefresh (event){
 function centerMapOnStation(latitude, longitude) {
    map.setCenter({lat: latitude, lng: longitude  })
  } 
+=======
+function centerMapOnStation(latitude, longitude, map) {
+  map.setCenter(latitude, longitude)
+}
+>>>>>>> 77cab31 (for rebase)
 
