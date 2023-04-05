@@ -1,5 +1,5 @@
 import { setClock } from './clock.js'
-let map;
+export let map;
 let markers = [];
 
 //initiates map
@@ -24,6 +24,7 @@ async function initMap(location) {
   // map.addListener('dragend', () => {
   //   setCenter(map)
   // })
+  //map.setCenter({lat: 80,lng: 35})
   map.addListener('tilesloaded', () => {
     createAndRenderMarkers(map)
   })
@@ -139,4 +140,3 @@ const centerLongitude = 144.9631; // Melbourne longitude
   centerLatitudeElem.textContent = centerLatitude.toFixed(4);
   centerLongitudeElem.textContent = centerLongitude.toFixed(4);
 
- 
