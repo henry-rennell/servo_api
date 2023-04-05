@@ -2,7 +2,7 @@ import { setClock } from './clock.js'
 export let map;
 let markers = [];
 let mapCenter;
-const nearest = document.querySelector('.nearest')
+const nearest = document.querySelector('#nearest')
 
 
 function renderStation(station) {
