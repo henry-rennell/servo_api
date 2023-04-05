@@ -1,5 +1,5 @@
 import { setClock } from './clock.js'
-let map;
+export let map;
 let markers = [];
 
 //initiates map
