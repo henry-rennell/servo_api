@@ -11,4 +11,8 @@ create table if not exists service_stations (
    long real not null
 );
 
+
+
 insert into service_stations (owner, address, suburb, state, lat, long) values ('BP', '3701 Murray Valley Highway', 'Cobram', 'Victoria', -35.9211754139999, 145.638305815);
+
+CREATE EXTENSION IF NOT EXISTS cube; CREATE EXTENSION IF NOT EXISTS earthdistance;

@@ -2,7 +2,7 @@ const leftBar = document.querySelector('.right-side-bar')
 const rightBar = document.querySelector('.left-side-bar')
 const wrapper = document.querySelector('.wrapper')
 
-window.addEventListener('keyup', handleKey)
+window.addEventListener('keydown', handleKey)
 
 function handleKey(e) {
     if (e.ctrlKey && e.key == 'b') {
