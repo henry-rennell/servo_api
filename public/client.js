@@ -2,30 +2,12 @@ import { setClock } from './clock.js'
 export let map;
 let markers = [];
 let mapCenter;
-const nearest = document.querySelector('#nearest')
+let mapBounds;
+const nearest = document.querySelector('.nearest')
+const addressElem = document.getElementById('location-address');
+const centerLatitudeElem = document.getElementById('center-latitude');
+const centerLongitudeElem = document.getElementById('center-longitude');
 
-
-function renderStation(station) {
-  let imgSrc;
-  if (station.owner === 'Caltex') {
-      imgSrc = '/icons/caltex.png';
-    } else if (station.owner === 'BP') {
-      imgSrc = '/icons/BP.png';
-    } else if (station.owner === 'Shell') {
-      imgSrc = '/icons/shell.png';
-    } else if (station.owner === '7-Eleven Pty Ltd') {
-      imgSrc = '/icons/seven11.png';
-    } else if (station.owner === 'United') {
-      imgSrc = '/icons/united.png'; 
-    } else {
-      imgSrc = '/icons/default.png'
-    }
-  return `<p><img src="${imgSrc}" /> <span>${station.name} ${station.owner} ${station.address}</span>
-  <span>${(station.distance / 1000).toFixed(2)}KM</span></p>`
-}
-function renderStationList(stations) {
-  nearest.innerHTML = stations.map((station) => renderStation(station)).join('')
-}
 
 //initiates map
 async function initMap(location) {
@@ -37,52 +19,75 @@ async function initMap(location) {
     zoom: 13,
     minZoom: 10
   });
-
+  //once the map is loaded, 
   map.addListener('tilesloaded', () => {
     createAndRenderMarkers(map)
-  })
-  map.addListener('tilesloaded', () => {
     getCenterOfMap(map)
   })
-  map.addListener('tilesloaded', () => {
-    let latLng = map.getCenter()
-    let lat = latLng.lat()
-    let lng = latLng.lng()
-    axios.get(`/api/stations/nearest?rad=5000&lat=${lat}&lng=${lng}`).then(result => {
-        return result.data.slice(0, 10)
-    }).then(renderStationList)
-  })  
+  //once the user drag
+  map.addListener('dragend', () => {
+    assignBoundaries(map)
+    checkMarkers(map)
+  })
+  map.addListener('zoom_changed', () => {
+    assignBoundaries(map)
+    checkMarkers(map)
+  })
 }
 
-function getCenterOfMap (map) {
+function checkMarkers(map) {
+  // getBounds(map)
+  let neBound = mapBounds.ne
+  let swBound = mapBounds.sw
+  markers.forEach(marker => {
+    let markerIndex = markers.indexOf(marker)
+    let latLng = marker.getPosition()
+    let markerLat = latLng.lat()
+    let markerLng = latLng.lng()
+    if (markerLat > neBound.lat || markerLat < swBound.lat || markerLng > neBound.lng || markerLng < swBound.lng) {
+      marker.setMap(null)
+      markers.splice(markerIndex, 1)
+    }
+  })
+}
+
+function getCenterOfMap(map) {
+  //initialising an instance of Geocoder
   const geocoder = new google.maps.Geocoder();
+  //getting map center coords object
   let latLng = map.getCenter()
   let lat = latLng.lat()
   let lng = latLng.lng()
-  const addressElem = document.getElementById('location-address');
-  const centerLatitudeElem = document.getElementById('center-latitude');
-  const centerLongitudeElem = document.getElementById('center-longitude');
-  let centerCoords = {lat, lng}
-  geocoder
-    .geocode({location: centerCoords})
-    .then(res => {
-      addressElem.textContent = res.results[0].formatted_address
-    })
+  //setting html text content of latitude and longitude elements
   centerLatitudeElem.textContent = lat.toFixed(4);
   centerLongitudeElem.textContent = lng.toFixed(4);
+
+  let centerCoords = {lat, lng}
+  //using geocoder based on centerCoords
+  geocoder
+    .geocode({location: centerCoords})
+    .then(res => {addressElem.textContent = res.results[0].formatted_address})//setting html element as the reverse geocoded coords
+  //function to collect and render the 10 nearest stations
+  getNearestStations(lat, lng)
+}
+
+function getNearestStations(lat, lng) {
+  //calling server route to get 10 nearest stations
+  axios.get(`/api/stations/nearest?rad=5000&lat=${lat}&lng=${lng}`)
+  .then(result => {return result.data.slice(0, 10)})
+  .then(renderStationList)
 }
 
 //calls all of the functions needed to create and render the markers 
 function createAndRenderMarkers(map) {
   //resetting markers -> offloading ones that arent needed
-  renderMarkers(null);
-  markers = [];
+  // renderMarkers(null);
+  // markers = [];
   assignBoundaries(map);
   renderMarkers(map);
 }
 
-//assigns boundaries of the map and calls createmarkers()
-function assignBoundaries(map) {
+function getBounds(map) {
   const bounds = map.getBounds();
   const ne = bounds.getNorthEast();
   const sw = bounds.getSouthWest();
@@ -90,7 +95,13 @@ function assignBoundaries(map) {
     ne: {lat: ne.lat(), lng: ne.lng()},
     sw: {lat: sw.lat(), lng: sw.lng()}
   };
-  createMarkers(data)
+  mapBounds = {ne: data.ne, sw: data.sw}
+}
+
+//assigns boundaries of the map and calls createmarkers()
+function assignBoundaries(map) {
+  getBounds(map)
+  createMarkers(mapBounds)
 }
 //adds every marker in markers [] to the map
 function renderMarkers(map) {
@@ -157,6 +168,29 @@ function success(position) {
 function error() {
   initMap({lat:-37.8136, lng: 144.9631})
 }
+//rendering nearest station list
+function renderStation(station) {
+  let imgSrc;
+  if (station.owner === 'Caltex') {
+      imgSrc = '/icons/caltex.png';
+    } else if (station.owner === 'BP') {
+      imgSrc = '/icons/BP.png';
+    } else if (station.owner === 'Shell') {
+      imgSrc = '/icons/shell.png';
+    } else if (station.owner === '7-Eleven Pty Ltd') {
+      imgSrc = '/icons/seven11.png';
+    } else if (station.owner === 'United') {
+      imgSrc = '/icons/united.png'; 
+    } else {
+      imgSrc = '/icons/default.png'
+    }
+  return `<p><img src="${imgSrc}" /> <span>${station.name} ${station.owner} ${station.address}</span>
+  <span>${(station.distance / 1000).toFixed(2)}KM</span></p>`
+}
+//assigning content of nearest station list to html 
+function renderStationList(stations) {
+  nearest.innerHTML = stations.map((station) => renderStation(station)).join('')
+}
 
 //this if statement handles if the browser does not support geolocation api 
 if (!navigator.geolocation) {
@@ -168,10 +202,6 @@ if (!navigator.geolocation) {
 
 
 setInterval(setClock, 1000);
-
-
-const centerLatitude = -37.8136; // Melbourne latitude
-const centerLongitude = 144.9631; // Melbourne longitude
 
 
 
