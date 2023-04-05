@@ -6,7 +6,7 @@ window.addEventListener('keyup', handleKey)
 
 function handleKey(e) {
     console.log(e)
-    if (e.key == 'b') {
+    if (e.ctrlKey && e.key == 'b') {
         leftBar.classList.toggle('hide')
         rightBar.classList.toggle('hide')
         wrapper.classList.toggle('hide')
