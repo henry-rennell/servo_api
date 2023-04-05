@@ -5,7 +5,6 @@ const wrapper = document.querySelector('.wrapper')
 window.addEventListener('keyup', handleKey)
 
 function handleKey(e) {
-    console.log(e)
     if (e.ctrlKey && e.key == 'b') {
         leftBar.classList.toggle('hide')
         rightBar.classList.toggle('hide')
