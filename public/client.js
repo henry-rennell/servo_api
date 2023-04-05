@@ -1,6 +1,30 @@
 import { setClock } from './clock.js'
 export let map;
 let markers = [];
+let mapCenter;
+const nearest = document.querySelector('.nearest')
+
+function renderStation(station) {
+  let imgSrc;
+  if (station.owner === 'Caltex') {
+      imgSrc = '/icons/caltex.png';
+    } else if (station.owner === 'BP') {
+      imgSrc = '/icons/BP.png';
+    } else if (station.owner === 'Shell') {
+      imgSrc = '/icons/shell.png';
+    } else if (station.owner === '7-Eleven Pty Ltd') {
+      imgSrc = '/icons/seven11.png';
+    } else if (station.owner === 'United') {
+      imgSrc = '/icons/united.png'; 
+    } else {
+      imgSrc = '/icons/default.png'
+    }
+  return `<p><img src="${imgSrc}" /> <span>${station.name} ${station.owner} ${station.address}</span>
+  <span>${(station.distance / 1000).toFixed(2)}KM</span></p>`
+}
+function renderStationList(stations) {
+  nearest.innerHTML = stations.map((station) => renderStation(station)).join('')
+}
 
 //initiates map
 async function initMap(location) {
@@ -11,24 +35,32 @@ async function initMap(location) {
     zoom: 13,
     minZoom: 10
   });
-  // map.addListener('dragend', () => {
-  //  createAndRenderMarkers(map)
-  // })
-    
-  // map.addListener('zoom_out', () => {
-  //   createAndRenderMarkers(map)
-  // })
-  // map.addListener('bounds_changed',() =>  {
-  //   createAndRenderMarkers(map)
-  // })
-  // map.addListener('dragend', () => {
-  //   setCenter(map)
-  // })
+
   map.addListener('tilesloaded', () => {
     createAndRenderMarkers(map)
   })
+  map.addListener('tilesloaded', () => {
+    getCenterOfMap(map)
+  })
+  map.addListener('tilesloaded', () => {
+    let latLng = map.getCenter()
+    let lat = latLng.lat()
+    let lng = latLng.lng()
+    axios.get(`/api/stations/nearest?rad=5000&lat=${lat}&lng=${lng}`).then(result => {
+        return result.data.slice(0, 10)
+    }).then(renderStationList)
+  })  
 }
 
+function getCenterOfMap (map) {
+  let latLng = map.getCenter()
+  let lat = latLng.lat()
+  let lng = latLng.lng()
+  const centerLatitudeElem = document.getElementById('center-latitude');
+  const centerLongitudeElem = document.getElementById('center-longitude');
+  centerLatitudeElem.textContent = lat.toFixed(4);
+  centerLongitudeElem.textContent = lng.toFixed(4);
+}
 
 //calls all of the functions needed to create and render the markers 
 function createAndRenderMarkers(map) {
@@ -118,7 +150,7 @@ function error() {
 
 //this if statement handles if the browser does not support geolocation api 
 if (!navigator.geolocation) {
-    initMap({lat:-37.8136, lng: 144.9631})
+  initMap({lat:-37.8136, lng: 144.9631})
 } else {
   //if the browser does support geolocation API
   navigator.geolocation.getCurrentPosition(success, error);
@@ -133,10 +165,3 @@ const centerLongitude = 144.9631; // Melbourne longitude
 
 
 
-  // Display Melbourne latitude and longitude on the right sidebar
-  const centerLatitudeElem = document.getElementById('center-latitude');
-  const centerLongitudeElem = document.getElementById('center-longitude');
-  centerLatitudeElem.textContent = centerLatitude.toFixed(4);
-  centerLongitudeElem.textContent = centerLongitude.toFixed(4);
-
- 
