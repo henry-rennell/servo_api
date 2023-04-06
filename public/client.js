@@ -137,7 +137,6 @@ function renderMarkers(map) {
     })
 }
 
-
 //function to create markers (data) is the object containing boundaries of the map
 function createMarkers(data) {
   axios.get(`/api/stations/bounds?neLat=${data.ne.lat}&neLng=${data.ne.lng}&swLat=${data.sw.lat}&swLng=${data.sw.lng}`)
