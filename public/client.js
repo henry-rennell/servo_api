@@ -30,7 +30,6 @@ async function initMap(location) {
   })
   //once the user drag
   map.addListener('dragend', () => {
-    console.log(markers.length)
     assignBoundaries(map)
     checkMarkers(map)
   })
