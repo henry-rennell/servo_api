@@ -7,7 +7,7 @@ function renderOwnerList(owners) {
 }
 
 function renderOwner(owner) {
-    return `<p>${owner.owner} ${owner.count}</p>`
+    return `<p>${owner.owner} <span>${owner.count}</span></p>`
 }
 
 function renderCounts(object) {

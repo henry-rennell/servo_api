@@ -1,40 +1,149 @@
 * {
-    /* border: red 2px solid; */
-    box-sizing: border-box;
+  /* border: red 2px solid; */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  height: 100%;
 }
 
 .hide.right-side-bar, .hide.left-side-bar {
-  display: none;
+display: none;
 }
 
 .hide.wrapper {
-  display: block;
+display: block;
 }
 
 
 #map {
-    height: 100%;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+  height: 100%;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .invisible {
-  display: none;
+display: none;
 }
 
 .visible {
-  display: block;
+display: block;
 }
 /* 
 img {
-  display: ;
+display: ;
 } */
+
+.spotlight {
+background-color: mistyrose;
+position: relative;
+padding: 20px 10px;
+border-bottom: 2px solid black;
+}
+
+.refresh-spotlight {
+position: absolute;
+top: 10px;
+right: 10px;
+}
+
+.refresh-spotlight a {
+color: white;
+text-decoration: none;
+}
+.latest-prices {
+background-color: lightblue;
+padding: 20px 10px;
+border-bottom: 2px solid black;
+}
+.about {
+background-color: mistyrose;
+padding: 20px 10px;
+
+}
+h3,h4 {
+margin-bottom: 10px;
+}
+.about::after {
+content: "@2023";
+display: block;
+font-size: 14px;
+color: gray;
+margin-top: 10px;
+}
+.date {
+background-color: lightyellow;
+text-align: center;
+padding: 20px;
+border-bottom: 2px solid black;
+}  
+
+
+.stats {
+  display: table;
+  width: 100%;
+  background-color: lightyellow;
+  padding: 20px 10px;
+  border-bottom: 2px solid black;
+
+}
+
+.stats h4 {
+  display: table-row;
+  font-weight: bold;
+}
+
+.stats .owner-list p {
+  display: table-row;
+}
+.stats p:nth-child(odd) {
+  background-color: rgb(237, 249, 180);
+}
+
+.stats p:nth-child(even) {
+  background-color: lightyellow;
+}
+
+.stats p span {
+  display: table-cell;
+  padding: 5px;
+}
+.right-side-bar {
+  background-color: lightyellow;
+  border-left: 2px solid black;
+}
+
+.nearest {
+background-color: lightyellow;
+
+}
+.nearest h3 {
+padding: 10px;
+}
+#nearest p {
+border-top: 1px solid black;
+}
+#nearest p:nth-child(even) {
+background-color: lightyellow;
+padding: 10px;
+}
+#nearest p:nth-child(odd) {
+background-color: rgb(237, 249, 180);
+padding: 10px;
+}
+.map-center-location {
+background-color: mistyrose;
+padding: 20px 10px;
+border-bottom: 2px solid black;
+}
+.left-side-bar {
+background-color: mistyrose;
+border-right: 2px solid black;
+}
