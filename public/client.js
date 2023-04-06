@@ -1,3 +1,4 @@
+//import { GridAlgorithm } from '@googlemaps/markerclusterer';
 import { setClock } from './clock.js'
 export let map;
 let markers = [];
@@ -192,6 +193,9 @@ function createMarkers(data) {
     markers.push(marker)
   }
 })})
+
+//const algorithm = new markerClusterer.SuperClusterAlgorithm({gridSize: 60, minimumClusterSize: 50, minZoom: 13})
+//new markerClusterer.MarkerClusterer({ map, markers, algorithm});
 }
 
 //function to handle user allowing geolocation
