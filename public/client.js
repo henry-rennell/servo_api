@@ -3,7 +3,7 @@ export let map;
 let markers = [];
 let mapCenter;
 let mapBounds;
-const nearest = document.querySelector('.nearest')
+const nearest = document.querySelector('#nearest')
 const addressElem = document.getElementById('location-address');
 const centerLatitudeElem = document.getElementById('center-latitude');
 const centerLongitudeElem = document.getElementById('center-longitude');
