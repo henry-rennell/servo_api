@@ -5,6 +5,7 @@ const expressLayouts = require("express-ejs-layouts");
 const Station = require("./models/station");
 const dayjs = require("dayjs");
 const axios = require('axios');
+require("dotenv").config()
 
 
 const db = require("./db");

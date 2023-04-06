@@ -7,13 +7,17 @@ const nearest = document.querySelector('.nearest')
 const addressElem = document.getElementById('location-address');
 const centerLatitudeElem = document.getElementById('center-latitude');
 const centerLongitudeElem = document.getElementById('center-longitude');
+const form = document.querySelector('form')
+let marker
+let geocoder
+let responseDiv
 
 
 //initiates map
 async function initMap(location) {
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
-  const geocoder = new google.maps.Geocoder();
+  geocoder = new google.maps.Geocoder();
   map = new Map(document.getElementById("map"), {
     center: { lat: location.lat, lng: location.lng },
     zoom: 13,
@@ -33,6 +37,33 @@ async function initMap(location) {
     assignBoundaries(map)
     checkMarkers(map)
   })
+
+  // create elements for search form in map
+  const inputText = document.createElement("input");
+
+  inputText.type = "text";
+  inputText.placeholder = "Enter a location";
+
+  const submitButton = document.createElement("input");
+
+  submitButton.type = "button";
+  submitButton.value = "Geocode";
+  submitButton.classList.add("button", "button-primary");
+
+  responseDiv = document.createElement("div");
+  responseDiv.id = "response-container";
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
+
+  marker = new google.maps.Marker({
+    map,
+  });
+  // passes address object to geocode function
+  submitButton.addEventListener("click", () =>
+    geocode({ address: inputText.value })
+  );
 }
 
 function checkMarkers(map) {
@@ -200,6 +231,23 @@ if (!navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(success, error);
 }
 
+function geocode(request) {
+  geocoder
+    .geocode(request)
+    .then((result) => {
+      const { results } = result;
+
+      map.setCenter(results[0].geometry.location);
+      marker.setPosition(results[0].geometry.location);
+      marker.setMap(map);
+      responseDiv.style.display = "block";
+      return results;
+    })
+    .catch((e) => {
+      console.log(e)
+      console.log("Geocode was not successful...");
+    });
+}
 
 setInterval(setClock, 1000);
 
