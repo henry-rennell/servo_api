@@ -147,3 +147,18 @@ border-bottom: 2px solid black;
 background-color: mistyrose;
 border-right: 2px solid black;
 }
+
+input {
+  padding: 10px;
+  margin: 10px;
+}
+
+.submit-button {
+  background-color: blueviolet;
+  color: white;
+  border: none;
+}
+
+.submit-button:hover{
+  background-color: rgb(171, 120, 219);
+}
