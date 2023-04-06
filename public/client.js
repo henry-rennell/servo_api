@@ -45,6 +45,7 @@ async function initMap(location) {
   inputText.placeholder = "Enter a location";
 
   const submitButton = document.createElement("input");
+  submitButton.classList.add('submit-button')
 
   submitButton.type = "button";
   submitButton.value = "Geocode";
