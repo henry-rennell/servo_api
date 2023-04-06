@@ -194,7 +194,7 @@ function createMarkers(data) {
   }
 })})
 
-//const algorithm = new markerClusterer.SuperClusterAlgorithm({gridSize: 60, minimumClusterSize: 50, minZoom: 13})
+//const algorithm = new markerClusterer.SuperClusterAlgorithm({gridSize: 60, minimumClusterSize: 50, maxZoom: 13})
 //new markerClusterer.MarkerClusterer({ map, markers, algorithm});
 }
 
