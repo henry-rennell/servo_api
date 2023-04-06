@@ -30,6 +30,7 @@ async function initMap(location) {
   })
   //once the user drag
   map.addListener('dragend', () => {
+    console.log(markers.length)
     assignBoundaries(map)
     checkMarkers(map)
   })
@@ -65,9 +66,8 @@ async function initMap(location) {
     geocode({ address: inputText.value })
   );
 }
-
+//checks if all markers in the markers [] are within the bounds.
 function checkMarkers(map) {
-  // getBounds(map)
   let neBound = mapBounds.ne
   let swBound = mapBounds.sw
   markers.forEach(marker => {
@@ -111,9 +111,6 @@ function getNearestStations(lat, lng) {
 
 //calls all of the functions needed to create and render the markers 
 function createAndRenderMarkers(map) {
-  //resetting markers -> offloading ones that arent needed
-  // renderMarkers(null);
-  // markers = [];
   assignBoundaries(map);
   renderMarkers(map);
 }
@@ -137,13 +134,13 @@ function assignBoundaries(map) {
 //adds every marker in markers [] to the map
 function renderMarkers(map) {
   markers.forEach(marker => {
-    marker.setMap(map)
-  })
+      marker.setMap(map)
+    })
 }
+
 
 //function to create markers (data) is the object containing boundaries of the map
 function createMarkers(data) {
-
   axios.get(`/api/stations/bounds?neLat=${data.ne.lat}&neLng=${data.ne.lng}&swLat=${data.sw.lat}&swLng=${data.sw.lng}`)
   .then(arr => { arr.data.forEach(location => {
     let markerIcon = null;
@@ -163,8 +160,8 @@ function createMarkers(data) {
     let marker = new google.maps.Marker({
       position: latLong,
       map,
-      title: `${location.owner}`,
-      icon: { url: markerIcon }
+      title: `${location.name}`,
+      icon: { url: markerIcon },
     })
 
 
@@ -186,7 +183,15 @@ function createMarkers(data) {
             marker.addListener('mouseover', () => {
               marker.label = `${location.name}`
             })
+  let titles = markers.map(marker => {
+    return marker.getTitle();
+  })
+
+  if (titles.includes(marker.getTitle())) {
+    return
+  } else {
     markers.push(marker)
+  }
 })})
 }
 
